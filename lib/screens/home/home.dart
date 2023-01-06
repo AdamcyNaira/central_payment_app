@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../util/constants.dart';
 import '../../widgets/home_widget.dart';
@@ -27,8 +26,8 @@ class _HomePageState extends State<HomePage> {
             end: Alignment.bottomRight,
             stops: [0.1, 0.5],
             colors: [
-              Color(0XFF9DFFB3),
-              Color(0XFF1AA37A),
+              Color(0XFFffffff),
+              Color.fromARGB(255, 185, 194, 206),
             ],
           ),
         ),

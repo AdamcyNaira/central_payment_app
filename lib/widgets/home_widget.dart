@@ -95,14 +95,14 @@ class Body extends StatelessWidget {
                               Text(
                                 "Central Payment System(CPS)",
                                 style: GoogleFonts.inter(
-                                    fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white70),
+                                    fontSize: 18, fontWeight: FontWeight.w900, color: Colors.black54),
                                 textAlign: TextAlign.center,
                               ),
                               const YMargin(3),
                               Text(
                                 "Secured & Flexible Payment",
                                 style: GoogleFonts.alike(
-                                    fontSize: 14, fontWeight: FontWeight.w300, color: Colors.white70),
+                                    fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black54),
                                 textAlign: TextAlign.center,
                               ),
                             ],

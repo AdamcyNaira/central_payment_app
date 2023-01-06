@@ -9,16 +9,19 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Constants {
   static SharedPreferences? sharedPref;
-  static const kTextColor = Color(0XFF1E2432);
+  static const kTextColor = Color(0XFF545559);
   static const kMediumTextColor = Color(0XFF53627C);
   static const kLightColor = Color(0XFFACB1C0);
   static const kPrimaryColor = Color.fromARGB(255, 67, 143, 74);
   static const kFormFillColor = Color(0XFFfdfff5);
   final kPrimaryColorOpacity = Color(0xff008080).withOpacity(0.8);
   static const kPrimaryColor2 = Color(0xff123318);
-  static const kBackgroundColor = Color(0xFFEbf5f0);
+  static const kBackgroundColor = Color(0xFFf1f3f4);
+  static const kWhiteColor = Color(0xFFffffff);
+  static const kGreyColor = Color(0xFFa0a5b1);
+  static const kLightGreyColor = Color(0xFFf1f3f4);
+  static const kBlackColor = Color(0xFF22272e);
   static const kBlueColor = Color(0xFF2C53B1);
-  static const kGreyColor = Color(0xFFB4B0B0);
   static const kTitleColor = Color(0xFF23374D);
   static const kSubtitleColor = Color(0xFF8E8E8E);
   static const kBorderColor = Color(0xFFE8E8F3);

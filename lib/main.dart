@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:result_verification/screens/dashboard/dashboard.dart';
 import 'package:result_verification/screens/home/login.dart';
 import 'package:result_verification/screens/home/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
 
    @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.black));
     return MaterialApp(
       title: 'Central Payment System(CPS)',
       theme: ThemeData(
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
        routes: {
         // '/registration': (ctx) => const Registration(),
         '/login': (ctx) => const Login(),
+        '/dashboard': (ctx) => BottomNav(),
       },
     );
   }
