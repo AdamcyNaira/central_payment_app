@@ -27,6 +27,7 @@ class Constants {
   static const kBorderColor = Color(0xFFE8E8F3);
   static const kFillColor = Color(0xFFFFFFFF);
   static const kCardTitleColor = Color(0xFF2E4ECF);
+  static const kIconsColor = Color(0XFF425b5e);
   static const kCardSubtitleColor = kTitleColor;
   static const kSecondaryColor = Color.fromARGB(255, 244, 242, 242);
 
@@ -127,18 +128,22 @@ String? userLastName;
 String? userName;
 String? userEmail;
 String? userPhone;
+String? userPassword;
 String? userModel;
+String? usersModel = "";
+String? usersPayment;
 String? token;
 bool? isLoggedIn = false;
 
 getData() {
   userEmail = Constants.sharedPref!.getString("email");
   userPhone = Constants.sharedPref!.getString("phone");
-  userName = Constants.sharedPref!.getString("firstName")! +
-      " " +
-      Constants.sharedPref!.getString("lastName")!;
+  userName = Constants.sharedPref!.getString("name");
   userID = Constants.sharedPref!.getString("userID");
+  userPassword = Constants.sharedPref!.getString("password");
   userModel = Constants.sharedPref!.getString("userModel");
+  usersModel = Constants.sharedPref!.getString("usersModel");
+  usersPayment = Constants.sharedPref!.getString("usersPayment");
   token = Constants.sharedPref!.getString("token");
   isLoggedIn = Constants.sharedPref!.getBool("isLoggedIn");
 }
@@ -210,3 +215,34 @@ dateFormater(date, format) {
 // MINUTE_SECOND                ms
 // SECOND                       s
 }
+
+
+  List payment_types = [{
+    "title": "Tuition",
+    "icon": "Ionicons.cash_outline",
+  },
+  {
+    "title": "Application",
+    "icon": "Icons.edit_note_outlined",
+  },
+  {
+    "title": "Course",
+    "icon": "Ionicons.book_outline",
+  },
+  {
+    "title": "Hostel",
+    "icon": "Icons.home_sharp",
+  },
+  {
+    "title": "Original Result Processing",
+    "icon": "Icons.file_copy",
+  },
+   {
+    "title": "Transcript Processing",
+    "icon": "Icons.file_open",
+  },
+  {
+    "title": "Miscellaneous",
+    "icon": "Icons.link_outlined",
+  }
+  ];

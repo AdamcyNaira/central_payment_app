@@ -340,7 +340,7 @@ class _LoginState extends ConsumerState<Login> {
                           const XMargin(5),
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, '/how_to_register');
+                              Navigator.pushNamed(context, '/register');
                             },
                             child: Text(
                               'register',

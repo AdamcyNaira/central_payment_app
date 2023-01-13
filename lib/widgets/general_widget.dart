@@ -9,7 +9,7 @@ void showInternetError({
   CoolAlert.show(
     context: context,
     type: CoolAlertType.warning,
-    title: 'Oops...',
+    title: 'NETWORK ERROR',
     text: msg,
     loopAnimation: true,
     backgroundColor: Constants.kPrimaryColor,

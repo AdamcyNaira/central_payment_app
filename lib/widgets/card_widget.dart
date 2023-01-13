@@ -157,3 +157,39 @@ class DashboardCard extends StatelessWidget {
  
   }
 }
+
+
+ class PaymentMenuCard extends StatelessWidget {
+  String? title;
+  Function()? route;
+  IconData? icon;
+  PaymentMenuCard({super.key, this.title, this.icon, this.route});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+                  onTap: route,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white54,
+                        borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(icon, color: Constants.kIconsColor,),
+                        YMargin(5),
+                        Text(
+                            title!,
+                            style: TextStyle(color: Colors.black54, fontSize: 12),
+                            textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                    ),
+                    );
+  }
+}

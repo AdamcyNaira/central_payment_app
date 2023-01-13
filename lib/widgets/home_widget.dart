@@ -39,7 +39,7 @@ class TopBar extends StatelessWidget {
           ),
           const YMargin(20),
           Text(
-            "PAY MUBI is a central payment system for collection of all payments due to Federal Polytechnic Mubi (i.e. Result Verification, Transcript Processing Fee, Tuition Fee, Original Result Processing Fee etc)",
+            "PAY MUBI is a central payment system for collection of all payments due to Federal Polytechnic Mubi (i.e. Certificate Verification, Transcript Processing Fee, Tuition Fee, Original Result Processing Fee etc)",
             style: GoogleFonts.alike(
                 fontSize: 14,
                 fontWeight: FontWeight.w300,
@@ -47,7 +47,7 @@ class TopBar extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const YMargin(50),
-          MaterialButton(
+                    MaterialButton(
                     color: Color(0XFF1AA37A),
                     child: Text(
                       'Get Started',

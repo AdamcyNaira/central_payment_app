@@ -52,17 +52,20 @@ class _DashboardState extends State<Dashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          GestureDetector(
+                            onTap: () => Navigator.pushNamed(context, "/payment_types"),
+                            child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
                         child: Text(
-                          "Make Payment",
-                          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+                            "Make Payment",
+                            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
                         ),
                       ),
+                          ),
                       Container(
                         decoration: BoxDecoration(
                           color: Color(0XFFfec52d),
