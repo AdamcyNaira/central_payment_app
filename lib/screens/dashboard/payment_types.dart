@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:result_verification/providers/payent_state.dart';
 import 'package:result_verification/util/constants.dart';
 import 'package:result_verification/widgets/card_widget.dart';
 import 'package:result_verification/widgets/dashboard_widget.dart';
 import 'package:string_2_icon/string_2_icon.dart';
 import '../../widgets/menu_widet.dart';
 
-class PaymentTypes extends StatefulWidget {
+class PaymentTypes extends ConsumerStatefulWidget {
   const PaymentTypes({super.key});
 
   @override
-  State<PaymentTypes> createState() => _PaymentTypesState();
+  ConsumerState<PaymentTypes> createState() => _PaymentTypesState();
 }
 
-class _PaymentTypesState extends State<PaymentTypes> {
+class _PaymentTypesState extends ConsumerState<PaymentTypes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +44,18 @@ class _PaymentTypesState extends State<PaymentTypes> {
                   PaymentMenuCard(
                     title: "Tuition",
                     icon: Ionicons.cash_outline,
-                    route: ()=>Navigator.pushNamed(context, "/payment_review"),
+                    route: () {
+                      final invoice = {
+                        "id": "1",
+                        "paymentType": "Tuition Fee",
+                        "Amount": "45500",
+                        "paymentID": "001",
+                        "status": "Pending",
+                        "orderID": "123456789",
+                      };
+                      ref.read(payStateProvider).setInvoice(invoice);
+                      Navigator.pushNamed(context, "/payment_review");
+                    },
                   ),
                   PaymentMenuCard(
                     title: "Application",

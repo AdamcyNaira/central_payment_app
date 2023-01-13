@@ -1,4 +1,3 @@
-import 'package:carousel_nullsafety/carousel_nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,14 +6,14 @@ import 'package:result_verification/widgets/card_widget.dart';
 
 import '../../util/constants.dart';
 
-class Dashboard extends StatefulWidget {
+class Dashboard extends ConsumerStatefulWidget {
   const Dashboard({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  ConsumerState<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends ConsumerState<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,6 +24,7 @@ class _DashboardState extends State<Dashboard> {
               width: screenWidth(context),
               child: RefreshIndicator(
                 onRefresh: () async => {
+                  Constants.sharedPref!.clear()
                //  await ref.watch(eventListState.future),
                 },
                 child: ListView(

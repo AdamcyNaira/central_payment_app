@@ -6,9 +6,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Constants {
   static SharedPreferences? sharedPref;
+  static Box? box;
+
   static const kTextColor = Color(0XFF545559);
   static const kMediumTextColor = Color(0XFF53627C);
   static const kLightColor = Color(0XFFACB1C0);

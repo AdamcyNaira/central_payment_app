@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:path_provider/path_provider.dart';
 
+import '../../model/user_model.dart';
+import '../../providers/payent_state.dart';
 import '../../util/constants.dart';
 import '../../widgets/dashboard_widget.dart';
 import '../../widgets/form_widget.dart';
@@ -27,112 +31,118 @@ class _LoginState extends ConsumerState<Login> {
   bool? isLoggedIn = false;
   String password = '';
   String username = '';
+  String loginResponse = '';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
 
-  // userLogin() async {
-  //   if (formKey.currentState!.validate()) {
-  //     var result = await Connectivity().checkConnectivity();
+  userLogin() async {
+      List<Users> _users= [];
+    String fileName = "usersList.json";
+    var dir = await getTemporaryDirectory();
+    File file = File(dir.path + "/" + fileName);
+    if (file.path.isEmpty) {
+      file.writeAsStringSync(json.encode([]), flush: true, mode: FileMode.write);
+    }
+    
+    
+    if (formKey.currentState!.validate()) {
+      var result = await Connectivity().checkConnectivity();
+      if (result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi) {
+        formKey.currentState!.save();
+        setState(() {
+          isLoading = true;
+        });
+        isLoading
+            ? showLoadingDialog(context)
+            : Navigator.of(context, rootNavigator: true).pop('dialog');
+        Timer(const Duration(seconds: 3), () {});
 
-  //     if (result == ConnectivityResult.mobile ||
-  //         result == ConnectivityResult.wifi) {
-  //       formKey.currentState!.save();
-  //       setState(() {
-  //         isLoading = true;
-  //       });
-  //       isLoading
-  //           ? showLoadingDialog(context)
-  //           : Navigator.of(context, rootNavigator: true).pop('dialog');
-  //       Timer(const Duration(seconds: 3), () {});
+        var jsonData = file.readAsStringSync();
+        List localData = json.decode(jsonData);
+        localData.map((items) => _users.add(Users.fromJson(items))).toList();
 
-  //       final loginResponse = await Services.userLogin(username, password);
+       List<Users> check = _users.where((item)=> item.email == username || item.password == password).toList();
+        
+        if (check.length > 0) {
+          setState(() {
+            loginResponse = "success";
+          });
+        }else{
+            setState(() {
+            loginResponse = "invalid";
+          });
+        }
 
-  //       if (loginResponse["token"] != null) {
-  //         //SAVE USER DETAILS IN LOCAL STORAGE
-  //         setState(() {
-  //           Constants.sharedPref!
-  //               .setString("userID", loginResponse["user"]["_id"].toString());
-  //           Constants.sharedPref!.setString(
-  //               "firstName", loginResponse["user"]["first_name"].toString());
-  //           Constants.sharedPref!.setString(
-  //               "lastName", loginResponse["user"]["last_name"].toString());
-  //           Constants.sharedPref!
-  //               .setString("email", loginResponse["user"]["email"].toString());
-  //           Constants.sharedPref!.setString(
-  //               "phone", loginResponse["user"]["phone_number"].toString());
-  //           Constants.sharedPref!
-  //               .setString("token", loginResponse["token"].toString());
-  //           Constants.sharedPref!
-  //               .setString("userModel", jsonEncode(loginResponse));
-  //           Constants.sharedPref!.setBool("isLoggedIn", true);
-  //           isLoading = false;
-  //         });
+        if (loginResponse == "success") {
+          //SAVE USER DETAILS IN LOCAL STORAGE
+          setState(() {
+            Constants.sharedPref!
+                .setString("userModel", jsonEncode(check[0]));
+            Constants.sharedPref!.setBool("isLoggedIn", true);
+            isLoading = false;
+          });
 
-          
-  //         getData();
+          ref.read(payStateProvider).setUser(check[0]);
+          getData();
 
-  //         isLoading
-  //             ? showLoadingDialog(context)
-  //             : Navigator.of(context, rootNavigator: true).pop('dialog');
-  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //           content: const Text('Login Successful'),
-  //           onVisible: () {
-  //             Timer(const Duration(seconds: 2), () {
-  //               Future.delayed(Duration.zero, () {
-  //                 Navigator.pushNamedAndRemoveUntil(
-  //                     context, '/loading_state', (route) => false);
-  //               });
-  //             });
-  //           },
-  //           behavior: SnackBarBehavior.floating,
-  //           backgroundColor: Colors.black87,
-  //         ));
-  //       } else if (loginResponse["non_field_errors"] != null) {
-  //         setState(() {
-  //           isLoading = false;
-  //         });
-  //         isLoading
-  //             ? showLoadingDialog(context)
-  //             : Navigator.of(context, rootNavigator: true).pop('dialog');
-  //         showErrorDialog(
-  //             context: context,
-  //             msg: "Invalid Login Credential!",
-  //             title: "Oops!");
-  //       } else {
-  //         setState(() {
-  //           isLoading = false;
-  //         });
-  //         isLoading
-  //             ? showLoadingDialog(context)
-  //             : Navigator.of(context, rootNavigator: true).pop('dialog');
-  //         showErrorDialog(
-  //             context: context, msg: "Something went wrong", title: "Oops!");
-  //       }
-  //     } else {
-  //       showInternetError();
-  //     }
-  //   }
-  // }
+          isLoading
+              ? showLoadingDialog(context)
+              : Navigator.of(context, rootNavigator: true).pop('dialog');
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text('Login Successful'),
+            onVisible: () {
+              Timer(const Duration(seconds: 2), () {
+                Future.delayed(Duration.zero, () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/dashboard', (route) => false);
+                });
+              });
+            },
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.black87,
+          ));
+        } else if (loginResponse == "invalid") {
+          setState(() {
+            isLoading = false;
+          });
+          isLoading
+              ? showLoadingDialog(context)
+              : Navigator.of(context, rootNavigator: true).pop('dialog');
+          showErrorDialog(
+              context: context,
+              msg: "Invalid Login Credential!",
+              title: "Oops!");
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          isLoading
+              ? showLoadingDialog(context)
+              : Navigator.of(context, rootNavigator: true).pop('dialog');
+          showErrorDialog(
+              context: context, msg: "Something went wrong", title: "Oops!");
+        }
+      } else {
+        showInternetError();
+      }
+    }
+  }
 
   checkLoginState() {
     if (isLoggedIn == true) {
       Future.delayed(Duration.zero, () {
-
+        Users userData = Users.fromJson(json.decode(userModel ?? "")) ;
+        ref.read(payStateProvider).setUser(userData);
         Navigator.pushNamedAndRemoveUntil(
-            context, '/loading_state', (route) => false);
+            context, '/dashboard', (route) => false);
       });
     }
   }
 
   getData() {
     setState(() {
-      userPhone = Constants.sharedPref!.getString("phone");
-      userName = Constants.sharedPref!.getString("firstName") != null
-          ? Constants.sharedPref!.getString("firstName")! +
-              " " +
-              Constants.sharedPref!.getString("lastName")!
-          : "";
       userID = Constants.sharedPref!.getString("userID");
       userModel = Constants.sharedPref!.getString("userModel");
       token = Constants.sharedPref!.getString("token");
@@ -275,7 +285,7 @@ class _LoginState extends ConsumerState<Login> {
                           padding: const EdgeInsets.all(20),
                           textColor: Colors.white,
                           onPressed: () {
-                            Navigator.pushNamed(context, '/dashboard');
+                            userLogin();
                           },
                         ),
                       ),

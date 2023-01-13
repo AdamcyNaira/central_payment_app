@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:result_verification/screens/dashboard/dashboard.dart';
 import 'package:result_verification/screens/dashboard/payment_review.dart';
 import 'package:result_verification/screens/dashboard/payment_types.dart';
@@ -14,6 +15,8 @@ import 'util/constants.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Constants.sharedPref = await SharedPreferences.getInstance();
+  await Hive.initFlutter();
+  Constants.box = await Hive.openBox('MyData');
   await FlutterDownloader.initialize(
       debug:
           true, // optional: set to false to disable printing logs to console (default: true)
@@ -30,12 +33,19 @@ class MyApp extends StatelessWidget {
 
    @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Constants.kBackgroundColor, statusBarBrightness: Brightness.dark ));
     return MaterialApp(
       title: 'Central Payment System(CPS)',
       theme: ThemeData(
         primaryColor: Constants.kIconsColor,
         colorScheme: ColorScheme.light(),
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.dark,
+          systemOverlayStyle: SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.blue, // Navigation bar
+      statusBarColor: Constants.kBackgroundColor, // Status bar
+    )
+        )
       ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),

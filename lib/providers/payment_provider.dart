@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:result_verification/model/payment_model.dart';
+
+import '../model/user_model.dart';
 
 class PaymentState extends ChangeNotifier {
   //GETTERS
-  Map<String, dynamic> user = {};
+  Users user =  Users();
+  Payment invoice =  Payment();
   List payments = [];
   List payment_types = [{
     "title": "Tuition",
@@ -42,6 +46,11 @@ void setUser(value) {
 
 void setPayments(value) {
   payments = value;
+  notifyListeners();
+}
+
+void setInvoice(value) {
+  invoice = value;
   notifyListeners();
 }
 

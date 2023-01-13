@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:connectivity/connectivity.dart';
-
+import 'package:path_provider/path_provider.dart';
+import 'package:result_verification/model/user_model.dart';
 import '../../util/constants.dart';
 import '../../widgets/form_widget.dart';
 import '../../widgets/general_widget.dart';
@@ -30,11 +32,21 @@ class _RegistrationState extends State<Registration> {
   String email = "";
   String phone = "";
   String password = "";
-  String id = "";
+  String id = "1";
   String saveUser = "";
 
 
   patientRegistration() async {
+    //Save event list in local Storage
+    List<Users> _users= [];
+    String fileName = "usersList.json";
+    var dir = await getTemporaryDirectory();
+    File file = File(dir.path + "/" + fileName);
+    if (file.path.isEmpty) {
+      file.writeAsStringSync(json.encode([]), flush: true, mode: FileMode.write);
+    }
+    
+    
     if (formKey.currentState!.validate()) {
       var result = await Connectivity().checkConnectivity();
 
@@ -51,10 +63,12 @@ class _RegistrationState extends State<Registration> {
 
         getData();
 
-       final user = jsonDecode(usersModel ?? jsonEncode([{"email": "", "phone": ""}]));
-        print(user);
-       final check = user.where((item)=> item["email"] == email || item["phone"] == phone).toList();
-        print(check);
+        var jsonData = file.readAsStringSync();
+        List localData = json.decode(jsonData);
+        localData.map((items) => _users.add(Users.fromJson(items))).toList();
+
+       List<Users> check = _users.where((item)=> item.email == email || item.phone == phone).toList();
+        print(check.map((e) => print(e.name)));
         if (check.length > 0) {
           setState(() {
             saveUser = "exist";
@@ -74,26 +88,11 @@ class _RegistrationState extends State<Registration> {
            "password": password,
            "id": id,
         };
+         _users.add(Users.fromJson(userData));
 
           //SAVE USER DETAILS IN LOCAL STORAGE
-          setState(() {
-            Constants.sharedPref!
-                .setString("userID", id.toString());
-            Constants.sharedPref!.setString(
-                "name", name.toString());
-            Constants.sharedPref!.setString(
-                "password", password.toString());
-            Constants.sharedPref!
-                .setString("email", email.toString());
-            Constants.sharedPref!.setString(
-                "phone", phone.toString());
-            Constants.sharedPref!
-                .setString("userModel", jsonEncode(userData));
-            Constants.sharedPref!
-                .setString("usersModel", jsonEncode(user.add(userData)));
-            Constants.sharedPref!.setBool("isLoggedIn", true);
-            isLoading = false;
-          });
+          //Write users list in local Storage
+          file.writeAsStringSync(json.encode(_users), flush: true, mode: FileMode.write);
           setState(() {
             isLoading = false;
           });
@@ -106,7 +105,7 @@ class _RegistrationState extends State<Registration> {
                 "Registration Successfully! Kindly use your email and password to login",
             route: () => Navigator.pushReplacementNamed(context, '/login'),
           );
-          clearRegistrationForm();
+          // clearRegistrationForm();
         } else if (saveUser == "exist") {
           setState(() {
             isLoading = false;
