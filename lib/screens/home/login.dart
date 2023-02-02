@@ -9,12 +9,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../model/payment_model.dart';
 import '../../model/user_model.dart';
 import '../../providers/payent_state.dart';
 import '../../util/constants.dart';
 import '../../widgets/dashboard_widget.dart';
 import '../../widgets/form_widget.dart';
 import '../../widgets/general_widget.dart';
+import 'dart:io' as io;
 
 class Login extends ConsumerStatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -38,9 +40,12 @@ class _LoginState extends ConsumerState<Login> {
 
   userLogin() async {
       List<Users> _users= [];
+      List<Payment> _payments = [];
     String fileName = "usersList.json";
+    String paymentFileName = "paymentsList.json";
     var dir = await getTemporaryDirectory();
     File file = File(dir.path + "/" + fileName);
+    File paymentFile = File(dir.path + "/" + paymentFileName);
     if (file.path.isEmpty) {
       file.writeAsStringSync(json.encode([]), flush: true, mode: FileMode.write);
     }
@@ -84,7 +89,29 @@ class _LoginState extends ConsumerState<Login> {
             isLoading = false;
           });
 
+           var syncDirectory = await paymentFile;
+        await io.File(syncDirectory.toString()).exists();
+        bool checkFile = io.File(syncDirectory.toString()).existsSync();
+        if (!checkFile) {
+          _payments.add(Payment.fromJson({
+                        "id": '100000000000',
+                        "userId": '',
+                        "paymentType": '',
+                        "Amount": '',
+                        "paymentID": '',
+                        "date": DateTime.now().toString(),
+                        "status": "",
+                        "orderID": '',
+                      }));
+              paymentFile.writeAsStringSync(json.encode(_payments), flush: true, mode: FileMode.write);
+        }
+
+          var paymetJsonData = paymentFile.readAsStringSync();
+          List localPaymentData = json.decode(paymetJsonData);
+          localPaymentData.where((element) => element["userID"] ==  check[0].id).map((items) => _payments.add(Payment.fromJson(items))).toList();
+
           ref.read(payStateProvider).setUser(check[0]);
+          ref.read(payStateProvider).setPayments(_payments);
           getData();
 
           isLoading
@@ -130,11 +157,41 @@ class _LoginState extends ConsumerState<Login> {
     }
   }
 
-  checkLoginState() {
+  checkLoginState() async{
+    List<Payment> _payments = [];
+    String paymentFileName = "paymentsList.json";
+    var dir = await getTemporaryDirectory();
+    File paymentFile = File(dir.path + "/" + paymentFileName);
+
     if (isLoggedIn == true) {
-      Future.delayed(Duration.zero, () {
-        Users userData = Users.fromJson(json.decode(userModel ?? "")) ;
+      Future.delayed(Duration.zero, () async{
+        Users userData = Users.fromJson(json.decode(userModel ?? ""));
+
+        var syncDirectory = await paymentFile;
+        await io.File(syncDirectory.toString()).exists();
+        bool checkFile = io.File(syncDirectory.toString()).existsSync();
+        print(syncDirectory.existsSync());
+        if (!syncDirectory.existsSync()) {
+          _payments.add(Payment.fromJson({
+                        "id": '1000000000003',
+                        "userId": '',
+                        "paymentType": '',
+                        "Amount": '',
+                        "paymentID": '',
+                        "date": DateTime.now().toString(),
+                        "status": "",
+                        "orderID": '',
+                      }));
+              paymentFile.writeAsStringSync(json.encode(_payments), flush: true, mode: FileMode.write);
+        }
+
+        var paymetJsonData = paymentFile.readAsStringSync();
+          List localPaymentData = json.decode(paymetJsonData);
+          print(localPaymentData);
+          localPaymentData.where((element) => element["userID"] ==  userData.id).map((items) => _payments.add(Payment.fromJson(items))).toList();
+
         ref.read(payStateProvider).setUser(userData);
+        ref.read(payStateProvider).setPayments(_payments);
         Navigator.pushNamedAndRemoveUntil(
             context, '/dashboard', (route) => false);
       });

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:io' as io;
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,9 +42,19 @@ class _RegistrationState extends State<Registration> {
     List<Users> _users= [];
     String fileName = "usersList.json";
     var dir = await getTemporaryDirectory();
-    File file = File(dir.path + "/" + fileName);
-    if (file.path.isEmpty) {
-      file.writeAsStringSync(json.encode([]), flush: true, mode: FileMode.write);
+    File file =  File(dir.path + "/" + fileName);
+    var syncDirectory = await file;
+    await io.File(syncDirectory.toString()).exists();
+    bool checkFile = io.File(syncDirectory.toString()).existsSync();
+    if (!checkFile) {
+      _users.add(Users.fromJson({
+           "name": '',
+           "email": '',
+           "phone": '',
+           "password": '',
+           "id": '1',
+        }));
+          file.writeAsStringSync(json.encode(_users), flush: true, mode: FileMode.write);
     }
     
     

@@ -7,7 +7,7 @@ class PaymentState extends ChangeNotifier {
   //GETTERS
   Users user =  Users();
   Payment invoice =  Payment();
-  List payments = [];
+  List<Payment> payments = [];
   List payment_types = [{
     "title": "Tuition",
     "icon": "Ionicons.cash_outline",

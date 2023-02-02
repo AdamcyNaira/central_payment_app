@@ -33,19 +33,13 @@ class MyApp extends StatelessWidget {
 
    @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Constants.kBackgroundColor, statusBarBrightness: Brightness.dark ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle( ));
+   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle( statusBarColor: Constants.kBackgroundColor, statusBarBrightness: Brightness.dark));
     return MaterialApp(
       title: 'Central Payment System(CPS)',
       theme: ThemeData(
         primaryColor: Constants.kIconsColor,
-        colorScheme: ColorScheme.light(),
-        appBarTheme: AppBarTheme(
-          brightness: Brightness.dark,
-          systemOverlayStyle: SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.blue, // Navigation bar
-      statusBarColor: Constants.kBackgroundColor, // Status bar
-    )
-        )
+        //colorScheme: ColorScheme.light(),
       ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),

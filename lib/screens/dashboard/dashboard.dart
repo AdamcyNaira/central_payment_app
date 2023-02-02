@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:result_verification/widgets/card_widget.dart';
 
+import '../../model/payment_model.dart';
+import '../../providers/payent_state.dart';
 import '../../util/constants.dart';
 
 class Dashboard extends ConsumerStatefulWidget {
@@ -16,6 +18,7 @@ class Dashboard extends ConsumerStatefulWidget {
 class _DashboardState extends ConsumerState<Dashboard> {
   @override
   Widget build(BuildContext context) {
+    List<Payment> _payments = ref.watch(payStateProvider).payments;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Constants.kBackgroundColor,
@@ -24,10 +27,11 @@ class _DashboardState extends ConsumerState<Dashboard> {
               width: screenWidth(context),
               child: RefreshIndicator(
                 onRefresh: () async => {
-                  Constants.sharedPref!.clear()
+                 // Constants.sharedPref!.clear()
                //  await ref.watch(eventListState.future),
                 },
                 child: ListView(
+                  shrinkWrap: true,
                   children: [
                     Container(
                     padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -112,24 +116,19 @@ class _DashboardState extends ConsumerState<Dashboard> {
                       ),
                     ),
                     YMargin(30), 
-                    TransactionTile(
+                     ListView.builder(
+                      shrinkWrap: true,
+                  itemCount: _payments.length,
+                  itemBuilder: (context, index) {
+                    return TransactionTile(
                       icon: Ionicons.wallet_outline,
-                      title: "Result Procession Fee",
-                      subTitle: "22, December, 2022",
-                      amount: "5,000",
-                    ),
-                    TransactionTile(
-                      icon: Ionicons.wallet_outline,
-                      title: "Tuition Fee",
-                      subTitle: "01, January, 2023",
-                      amount: "85,000",
-                    ),
-                    TransactionTile(
-                      icon: Ionicons.wallet_outline,
-                      title: "Result Verification Fee",
-                      subTitle: "04, January, 2023",
-                      amount: "5,000",
-                    ),
+                      title: _payments[index].paymentType,
+                      subTitle:  dateFormater(_payments[index].date.toString(), 'yMMMMd'),
+                      amount:  _payments[index].amount,
+                    );
+                      },
+                ),
+                
                   ],
                 ),
               ),
