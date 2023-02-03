@@ -42,7 +42,7 @@ AppBar twoButtonsAppbar({
           onTap: route2,
           child: Icon(
             icon2,
-            color: Constants.kPrimaryColor,
+            color: Constants.kIconsColor,
           ),
         ),
       )
@@ -118,6 +118,84 @@ AppBar exAppBar({title, context}) {
     ),
   );
 }
+
+AppBar largeAppbar({
+  context,
+  String? title,
+  String? caption,
+  String? banner,
+  IconData? icon1,
+  IconData? icon2,
+  Function()? route1,
+  Function()? route2,
+}) {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    leading: IconButton(
+      onPressed: route1,
+      icon: Icon(
+        icon1,
+        color: Colors.black54,
+      ),
+    ),
+    title: Text(
+      title!,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.black54,
+      ),
+    ),
+    centerTitle: true,
+    backgroundColor: Constants.kBackgroundColor,
+    elevation: 0,
+    actions: [
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GestureDetector(
+          onTap: route2,
+          child: Icon(
+            icon2,
+            color: Constants.kIconsColor,
+          ),
+        ),
+      )
+    ],
+    flexibleSpace: Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(banner!),
+              fit: BoxFit.fill
+            )
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(color: Colors.black.withOpacity(0.3)),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20, right: 20, top: 10, bottom: 43
+                    ),
+                    child: Text(caption! ,
+                            style: GoogleFonts.notoSans(color: Constants.kIconsColor, fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
 
 Widget chooseMenu(
     {context,
@@ -1753,7 +1831,7 @@ Widget userInfoCard({
                 name!,
                 style: GoogleFonts.sourceSansPro(
                     fontWeight: FontWeight.w600,
-                    color: Constants.kPrimaryColor,
+                    color: Constants.kIconsColor,
                     fontSize: 18),
                 textAlign: TextAlign.center,
               ),
@@ -1777,7 +1855,7 @@ Widget userInfoCard({
                     child: MaterialButton(
                       minWidth: screenWidth(context) * 0.41,
                       color: isPersonalInfo!
-                          ? Constants.kPrimaryColor.withOpacity(0.7)
+                          ? Constants.kIconsColor
                           : Colors.white,
                       child: Text(
                         'Personal Info',
@@ -1786,17 +1864,17 @@ Widget userInfoCard({
                           fontWeight: FontWeight.bold,
                           color: isPersonalInfo
                               ? Colors.white
-                              : Constants.kPrimaryColor.withOpacity(0.7),
+                              : Constants.kIconsColor,
                         ),
                       ),
                       shape: OutlineInputBorder(
                         borderSide: BorderSide(
-                            color: Constants.kPrimaryColor.withOpacity(0.5),
+                            color: Constants.kIconsColor,
                             width: 1),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       padding: const EdgeInsets.all(12),
-                      textColor: Constants.kPrimaryColor,
+                      textColor: Constants.kIconsColor,
                       onPressed: route!,
                     ),
                   ),
@@ -1807,25 +1885,25 @@ Widget userInfoCard({
                       minWidth: screenWidth(context) * 0.41,
                       color: isPersonalInfo
                           ? Colors.white
-                          : Constants.kPrimaryColor.withOpacity(0.7),
+                          : Constants.kIconsColor,
                       child: Text(
-                        'Membership Benefits',
+                        'My Payments',
                         style: GoogleFonts.sourceSansPro(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: isPersonalInfo
-                              ? Constants.kPrimaryColor.withOpacity(0.7)
+                              ? Constants.kIconsColor
                               : Colors.white,
                         ),
                       ),
                       shape: OutlineInputBorder(
                         borderSide: BorderSide(
-                            color: Constants.kPrimaryColor.withOpacity(0.5),
+                            color: Constants.kIconsColor,
                             width: 1),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       padding: const EdgeInsets.all(12),
-                      textColor: Constants.kPrimaryColor,
+                      textColor: Constants.kIconsColor,
                       onPressed: route2!,
                     ),
                   ),
@@ -1892,7 +1970,7 @@ Widget presenterInfoCard({
                 name!,
                 style: GoogleFonts.sourceSansPro(
                     fontWeight: FontWeight.w600,
-                    color: Constants.kPrimaryColor,
+                    color: Constants.kIconsColor,
                     fontSize: 18),
                 textAlign: TextAlign.center,
               ),

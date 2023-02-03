@@ -186,7 +186,7 @@ Widget buildTextInput({
   int? maxLines,
 }) {
   return Padding(
-    padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10),
+    padding: const EdgeInsets.only(left: 20.0, right: 10.0, bottom: 15),
     child: TextFormField(
       controller: controller,
       onSaved: onSave,

@@ -8,6 +8,7 @@ class PaymentState extends ChangeNotifier {
   Users user =  Users();
   Payment invoice =  Payment();
   List<Payment> payments = [];
+  String certificateNo = "";
   List payment_types = [{
     "title": "Tuition",
     "icon": "Ionicons.cash_outline",
@@ -51,6 +52,11 @@ void setPayments(value) {
 
 void setInvoice(value) {
   invoice = value;
+  notifyListeners();
+}
+
+void setCertificateNo(value) {
+  certificateNo = value;
   notifyListeners();
 }
 

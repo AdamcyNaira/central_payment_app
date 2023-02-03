@@ -60,8 +60,8 @@ void showErrorDialog({
     text: msg,
     loopAnimation: false,
     barrierDismissible: false,
-    confirmBtnColor: Constants.kPrimaryColor,
-    backgroundColor: Constants.kPrimaryColor,
+    confirmBtnColor: Constants.kIconsColor,
+    backgroundColor: Constants.kIconsColor,
   );
 }
 

@@ -124,7 +124,7 @@ class _PaymentReviewState extends ConsumerState<PaymentReview> {
       final _invoice = ref.read(payStateProvider).invoice;
       final payment = Payment.fromJson({
                         "id": _invoice.id,
-                        "userId": ref.read(payStateProvider).user.id.toString(),
+                        "userID": ref.read(payStateProvider).user.id.toString(),
                         "paymentType": _invoice.paymentType,
                         "Amount": _invoice.amount,
                         "paymentID": _getReference(),
@@ -143,7 +143,12 @@ class _PaymentReviewState extends ConsumerState<PaymentReview> {
             
                       bool  res = true;
                       if (res == true) {
-                        Navigator.pushNamed(context, "/dashboard");
+                        if (_invoice.paymentType == "Certificate Verification Fee") {
+                          Navigator.pushNamed(context, "/verified_cert");
+                        }else{
+                          Navigator.pushNamed(context, "/dashboard");
+                        }
+                        
                       }
       
      
@@ -306,21 +311,29 @@ getData()async {
                         ),
                         
                       ),
-                      YMargin(250),
-                       GestureDetector(
-                        onTap: () => _initiateUserTransaction(),
-                         child: Container(
-                          decoration: BoxDecoration(
-                              color: Constants.kIconsColor,
-                              borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
-                          child: Text(
-                              "PAY NOW",
-                              style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                          ),
+                       Container(
+                        height: screenHeight(context) * 0.38,
+                         child: GestureDetector(
+                          onTap: () => _initiateUserTransaction(),
+                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                             children: [
+                               Container(
+                                decoration: BoxDecoration(
+                                    color: Constants.kIconsColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
+                                child: Text(
+                                    "PAY NOW",
+                                    style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                ),
                       ),
+                             ],
+                           ),
+                         ),
                        ),
                   ],
                         ),

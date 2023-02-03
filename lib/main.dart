@@ -6,10 +6,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:result_verification/screens/dashboard/dashboard.dart';
 import 'package:result_verification/screens/dashboard/payment_review.dart';
 import 'package:result_verification/screens/dashboard/payment_types.dart';
+import 'package:result_verification/screens/home/home.dart';
 import 'package:result_verification/screens/home/login.dart';
 import 'package:result_verification/screens/home/register.dart';
 import 'package:result_verification/screens/home/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/dashboard/certificate_verification.dart';
+import 'screens/dashboard/verified_cert.dart';
 import 'util/constants.dart';
 
 Future main() async {
@@ -45,11 +48,14 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
        routes: {
         // '/registration': (ctx) => const Registration(),
+        '/home': (ctx) => const HomePage(),
         '/register': (ctx) => const Registration(),
         '/login': (ctx) => const Login(),
         '/dashboard': (ctx) => BottomNav(),
         '/payment_types': (ctx) => PaymentTypes(),
         '/payment_review': (ctx) => PaymentReview(),
+        '/verify_certificate': (ctx) => CertificateVerification(),
+        '/verified_cert': (ctx) => VerifiedCertificate(),
       },
     );
   }

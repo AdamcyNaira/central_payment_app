@@ -176,7 +176,7 @@ class _RegistrationState extends State<Registration> {
                   child: Text(
                     'Sign up',
                     style: TextStyle(
-                        color: Constants.kPrimaryColor.withOpacity(0.8),
+                        color: Constants.kIconsColor,
                         fontFamily: 'Quando',
                         fontSize: 24.0,
                         fontWeight: FontWeight.w700),
@@ -217,7 +217,7 @@ class _RegistrationState extends State<Registration> {
                             keyboardType: TextInputType.text,
                             hintText: 'Name',
                             padding:
-                                const EdgeInsets.only(left: 20.0, right: 0.0),
+                                const EdgeInsets.only(left: 20.0, right: 15.0),
                           ),
                 const YMargin(10),
                 inputLabel(title: 'Email Address'),
@@ -270,12 +270,12 @@ class _RegistrationState extends State<Registration> {
                         style: const TextStyle(
                             fontSize: 12, color: Colors.black54),
                         prefixIcon: Icons.lock,
-                        iconColor: Constants.kPrimaryColor.withOpacity(0.6),
+                        iconColor: Constants.kIconsColor,
                         hintText: 'Password',
                         suffixIconVisibility: Icons.visibility,
                         suffixIconVisibilityOff: Icons.visibility_off,
                         suffixIconColor:
-                            Constants.kPrimaryColor.withOpacity(0.6),
+                            Constants.kIconsColor.withOpacity(0.6),
                       ),
                 const YMargin(30),
                 Padding(
@@ -321,7 +321,7 @@ class _RegistrationState extends State<Registration> {
                           fontFamily: 'Roboto',
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Constants.kPrimaryColor.withOpacity(0.8),
+                          color: Constants.kIconsColor.withOpacity(0.8),
                         ),
                       ),
                     ),

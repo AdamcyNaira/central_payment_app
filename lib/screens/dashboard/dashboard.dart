@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
@@ -7,6 +8,8 @@ import 'package:result_verification/widgets/card_widget.dart';
 import '../../model/payment_model.dart';
 import '../../providers/payent_state.dart';
 import '../../util/constants.dart';
+import 'payment_types.dart';
+import 'user_account.dart';
 
 class Dashboard extends ConsumerStatefulWidget {
   const Dashboard({super.key});
@@ -18,7 +21,10 @@ class Dashboard extends ConsumerStatefulWidget {
 class _DashboardState extends ConsumerState<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    List<Payment> _payments = ref.watch(payStateProvider).payments;
+   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle( statusBarColor: Constants.kBlackColor, statusBarBrightness: Brightness.light));
+   final user = ref.read(payStateProvider).user;
+    List<Payment> _payments = ref.watch(payStateProvider).payments.where((element) => element.userId == user.id).toList();
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Constants.kBackgroundColor,
@@ -63,22 +69,25 @@ class _DashboardState extends ConsumerState<Dashboard> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                         child: Text(
                             "Make Payment",
                             style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
                         ),
                       ),
                           ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0XFFfec52d),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 45, vertical: 15),
-                        child: Text(
-                          "Transactions",
-                          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(context, "/verify_certificate"),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0XFFfec52d),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                          child: Text(
+                            "Verify Certificate",
+                            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                         ],
@@ -115,9 +124,11 @@ class _DashboardState extends ConsumerState<Dashboard> {
                         ],
                       ),
                     ),
-                    YMargin(30), 
+                    YMargin(20), 
+                    _payments.length > 0 ?
                      ListView.builder(
                       shrinkWrap: true,
+                      primary: false,
                   itemCount: _payments.length,
                   itemBuilder: (context, index) {
                     return TransactionTile(
@@ -127,6 +138,24 @@ class _DashboardState extends ConsumerState<Dashboard> {
                       amount:  _payments[index].amount,
                     );
                       },
+                )
+                :
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(35.0),
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    color: Colors.white,
+                    height: screenHeight(context) * 0.3,
+                    child: Center(
+                      child: Text(
+                        "No Transaction Found",
+                      style: GoogleFonts.inter(
+                                fontSize: 16,
+                                color: Constants.kTextColor,
+                              ),
+                      ),
+                    ),
+                  ),
                 ),
                 
                   ],
@@ -155,9 +184,8 @@ class _BottomNavState extends ConsumerState<BottomNav> {
   int _selectedIndex = 0;
   final menu = [
     const Dashboard(),
-    const Dashboard(),
-    const Dashboard(),
-    const Dashboard(),
+    const PaymentTypes(),
+    const UserAccount(),
   ];
    void onItemTapped(int index) {
     setState(() {
@@ -185,13 +213,7 @@ class _BottomNavState extends ConsumerState<BottomNav> {
             ),
             label: 'Payment',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Ionicons.list_outline,
-              size: 15.0,
-            ),
-            label: 'Transactions',
-          ),
+       
           BottomNavigationBarItem(
             icon: Icon(
               Ionicons.person_circle_outline,
@@ -227,10 +249,11 @@ class _DashboardTopState extends ConsumerState<DashboardTop> {
   var name = "";
   @override
   void initState() {
+    final user = ref.read(payStateProvider).user;
     super.initState();
     setState(() {
       photo = "";
-      name = "Adam Musa Yau";
+      name = user.name!;
     });
   }
 

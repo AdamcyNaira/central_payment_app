@@ -24,14 +24,18 @@ class _PaymentTypesState extends ConsumerState<PaymentTypes> {
     final _user = ref.watch(payStateProvider).user;
     return Scaffold(
       backgroundColor: Constants.kBackgroundColor,
-      appBar:  twoButtonsAppbar(
-        context: context,
+      appBar: PreferredSize(
+        child: largeAppbar(
+          context: context,
         icon1: Icons.arrow_back_ios_new,
         route1: () => Navigator.of(context).pop(),
-        title: "Payments",
-      ),
+        title: "",
+        banner: "assets/images/payment.jpg",
+        caption: "Choose Payment"
+        ), preferredSize: Size.fromHeight(200),
+      ), 
       body: Container(
-              padding: EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
+              padding: EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 5),
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: ListView(

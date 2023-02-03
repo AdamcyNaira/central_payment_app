@@ -64,8 +64,23 @@ class _LoginState extends ConsumerState<Login> {
             : Navigator.of(context, rootNavigator: true).pop('dialog');
         Timer(const Duration(seconds: 3), () {});
 
+    //      var syncDirectory = await file;
+    // await io.File(syncDirectory.toString()).exists();
+    // bool checkFile = io.File(syncDirectory.toString()).existsSync();
+    // if (!checkFile) {
+    //   _users.add(Users.fromJson({
+    //        "name": '',
+    //        "email": '',
+    //        "phone": '',
+    //        "password": '',
+    //        "id": '1',
+    //     }));
+    //       file.writeAsStringSync(json.encode(_users), flush: true, mode: FileMode.write);
+    // }
+
         var jsonData = file.readAsStringSync();
         List localData = json.decode(jsonData);
+        print(localData);
         localData.map((items) => _users.add(Users.fromJson(items))).toList();
 
        List<Users> check = _users.where((item)=> item.email == username || item.password == password).toList();
@@ -277,7 +292,7 @@ class _LoginState extends ConsumerState<Login> {
                         style: const TextStyle(
                             fontSize: 12, color: Colors.black54),
                         prefixIcon: Icons.person,
-                        iconColor: Constants.kPrimaryColor.withOpacity(0.6),
+                        iconColor: Constants.kIconsColor.withOpacity(0.6),
                         hintText: 'Enter username',
                       ),
                       const YMargin(30),
@@ -294,12 +309,12 @@ class _LoginState extends ConsumerState<Login> {
                         style: const TextStyle(
                             fontSize: 12, color: Colors.black54),
                         prefixIcon: Icons.lock,
-                        iconColor: Constants.kPrimaryColor.withOpacity(0.6),
+                        iconColor: Constants.kIconsColor.withOpacity(0.6),
                         hintText: 'Password',
                         suffixIconVisibility: Icons.visibility,
                         suffixIconVisibilityOff: Icons.visibility_off,
                         suffixIconColor:
-                            Constants.kPrimaryColor.withOpacity(0.6),
+                            Constants.kIconsColor.withOpacity(0.6),
                       ),
                       const YMargin(30),
                       // Padding(
@@ -329,14 +344,14 @@ class _LoginState extends ConsumerState<Login> {
                         padding: const EdgeInsets.only(left: 20.0, right: 10.0),
                         // ignore: deprecated_member_use
                         child: MaterialButton(
-                          color: Constants.kPrimaryColor.withOpacity(0.8),
+                          color: Constants.kIconsColor,
                           child: const Text(
                             'Sign In',
                             style: TextStyle(fontSize: 14),
                           ),
                           shape: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Constants.kPrimaryColor, width: 2),
+                                const BorderSide(color: Constants.kIconsColor, width: 2),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           padding: const EdgeInsets.all(20),
@@ -352,7 +367,7 @@ class _LoginState extends ConsumerState<Login> {
                         children: [
                           Expanded(
                             child: Divider(
-                              color: Constants.kPrimaryColor.withOpacity(0.8),
+                              color: Constants.kIconsColor.withOpacity(0.8),
                             ),
                           ),
                           SizedBox(
@@ -363,7 +378,7 @@ class _LoginState extends ConsumerState<Login> {
                           ),
                           Expanded(
                             child: Divider(
-                              color: Constants.kPrimaryColor.withOpacity(0.8),
+                              color: Constants.kIconsColor.withOpacity(0.8),
                             ),
                           ),
                         ],
@@ -415,7 +430,7 @@ class _LoginState extends ConsumerState<Login> {
                                 fontFamily: 'Roboto',
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Constants.kPrimaryColor.withOpacity(0.8),
+                                color: Constants.kIconsColor.withOpacity(0.8),
                               ),
                             ),
                           ),

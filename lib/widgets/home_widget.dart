@@ -30,7 +30,7 @@ class TopBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-            "PAY MUBI \n  Payment System ",
+            "PAY FPM \n  Payment System ",
             style: GoogleFonts.notoSerif(
                 fontSize: 26,
                 fontWeight: FontWeight.w900,
@@ -39,7 +39,7 @@ class TopBar extends StatelessWidget {
           ),
           const YMargin(20),
           Text(
-            "PAY MUBI is a central payment system for collection of all payments due to Federal Polytechnic Mubi (i.e. Certificate Verification, Transcript Processing Fee, Tuition Fee, Original Result Processing Fee etc)",
+            "PAY FPM is a central payment system for collection of all payments due to Federal Polytechnic Mubi (i.e. Certificate Verification, Transcript Processing Fee, Tuition Fee, Original Result Processing Fee etc)",
             style: GoogleFonts.alike(
                 fontSize: 14,
                 fontWeight: FontWeight.w300,
@@ -48,13 +48,13 @@ class TopBar extends StatelessWidget {
           ),
           const YMargin(50),
                     MaterialButton(
-                    color: Color(0XFF1AA37A),
+                    color: Constants.kIconsColor,
                     child: Text(
                       'Get Started',
                       style: TextStyle(fontSize: 14),
                     ),
                     shape: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0XFF1AA37A), width: 2),
+                      borderSide: BorderSide(color: Constants.kIconsColor, width: 2),
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
