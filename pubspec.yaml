@@ -67,7 +67,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   barcode_widget: ^2.0.3
   flutter_downloader: ^1.9.1
-  local_auth: ^2.1.2
+  # local_auth: ^2.1.2
   google_nav_bar: ^5.0.6
   onboarding: ^3.1.0
   flutter_onboarding_slider: ^1.0.8
